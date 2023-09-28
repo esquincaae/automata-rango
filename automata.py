@@ -30,19 +30,19 @@ def mostrar_secuencia(sequence):
         secuencia_label.config(text=secuencia_label.cget("text") + f" -> {state}")
         ventana.update()
         time.sleep(1)
-#2-CE-01R    6-DP-99S       4-DG-10R
-states = {
-    'q0': {'2': 'q1', '3': 'q1', '4': 'q1', '5': 'q1', '6': 'q1'},  # Estado inicial
-    'q1': {'-': 'q2'},  # Después de recibir un dígito, espera un guión
-    'q2': {chr(i): 'q3' for i in range(67, 69)},  # Después de un guión, espera una letra mayúscula
-    'q3': {chr(i): 'q4' for i in range(69, 81)},  # Espera otra letra mayúscula
-    'q4': {'-': 'q5'},  # Después de dos letras mayúsculas, espera otro guión
-    'q5': {'0':'q6', '1':'q9', '2':'q9', '3':'q9', '4':'q9', '5':'q9', '6':'q9', '7':'q9', '8':'q9', '9':'q9'},#str(i): 'q6' for i in range(10)},  # Después del segundo guión, espera un dígito
-        'q9':{str(i): 'q7' for i in range(10)},
 
-    'q6': {str(i): 'q7' for i in range(1, 10)},#'1':'q7', '2':'q7', '3':'q7', '4':'q7', '5':'q7', '6':'q7', '7':'q7', '8':'q7', '9':'q7'},  # Espera otro dígito
-    'q7': {chr(i): 'q8' for i in range(82, 84)},  # Finalmente, espera una letra mayúscula
-    'q8': {}  # Estado de aceptación, no hay transiciones posibles desde aquí
+#2-CE-01R     6-DP-99S       4-DG-10R
+states = {
+    'q0': {str(i): 'q1' for i in range(2, 7)},  # Estado inicial, Espera numeros en el rango (2, 6)
+    'q1': {'-': 'q2'},  # Después de recibir un dígito, espera un guión
+    'q2': {chr(i): 'q3' for i in range(67, 69)},  # Espera una letra mayúscula en el rango (C, D)
+    'q3': {chr(i): 'q4' for i in range(69, 81)},  # Espera otra letra mayúscula en el rango (E, P)
+    'q4': {'-': 'q5'},  #Espera un guión
+    'q5': {'0':'q6', '1':'q9', '2':'q9', '3':'q9', '4':'q9', '5':'q9', '6':'q9', '7':'q9', '8':'q9', '9':'q9'},# Después del segundo guión, espera un 0 para mandar a q6 ó un numero del (1, 9) para mandar a q9
+        'q9':{str(i): 'q7' for i in range(10)}, #Espera numeros en un rango de (0, 9) si y solo si en q5 se recibio un numero en el rango (1, 9)
+        'q6': {str(i): 'q7' for i in range(1, 10)},  # Espera digitos del (1, 9) si y solo si en q5 se recibio un 0
+    'q7': {chr(i): 'q8' for i in range(82, 84)},  #Espera una letra mayúscula en el rango (R, S)
+    'q8': {}  #Estado de aceptación
 
 }
 
